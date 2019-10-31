@@ -13,125 +13,6 @@ public class Casino
    
 	private static Scanner keyboard = new Scanner(System.in);
 	
-	//Constructor for ThreeString class
-	class ThreeString
-	{
-		//Maximum length of any string 
-		public static final int MAX_LEN = 20;
-		public static final int MAX_PULLS = 40;
-		
-		//Array of outcome of pull winnings
-		private static int[] pullWinnings = new int[MAX_PULLS];
-		
-		//Outcomes of pull
-		private String string1;
-		private String string2;
-		private String string3;
-		
-		//The current index of the pullWinnings
-		private static int numPulls = 0;
-		
-		ThreeString()
-		{
-			string1 = "";
-			string2 = "";
-			string3 = "";
-		}
-		
-		//Accessors to string values 
-		
-		public String getString1()
-		{
-			return string1;
-		}
-		public String getString2()
-		{
-			return string2;
-		}
-		public String getString3()
-		{
-			return string3;
-		}
-		
-		//Mutators of string values
-		
-		public boolean setString1(String value)
-		{
-			//Validates the string 
-			if(validString(value))
-			{
-				string1 = value;
-				return true;
-			}
-			return false;
-		}
-		
-		public boolean setString2(String value)
-		{
-			if(validString(value))
-			{
-				string2 = value;
-				return true;
-			}
-			return false;
-		}
-		
-		public boolean setString3(String value)
-		{
-			if(validString(value)) {
-				string3 = value;
-				return true;
-			}
-			return false;
-		}
-		
-		public String toString() {
-			return string1 + " " + string2 + " " + string3;
-		}
-		
-		public boolean saveWinnings(int winnings)
-		{
-			//Boundary
-			if(numPulls < MAX_PULLS)
-			{
-				pullWinnings[numPulls] = winnings;
-				
-				//Validates assignment in array
-				if (pullWinnings[numPulls] == winnings)
-				{
-					++numPulls;
-					return true;
-				}
-			}
-			return false;
-		}
-		
-		public String displayWinnings()
-		{
-			String message = "Your individual winnings were:\n";
-			int totalWinnings = 0;
-			
-			//Individual winnings shown and total winnings calculated 
-			for (int i = 0; i < numPulls; ++i)
-			{
-				message += " " + pullWinnings[i];
-				totalWinnings += pullWinnings[i];
-			}
-			
-			//total winnings 
-			message += "\nYour total winnings were: $" + totalWinnings;
-			
-			return message;
-		}
-		
-		//True only when not empty and less than max length of characters
-		private boolean validString(String str)
-		{
-			if(!str.equals("") && str.length() <= MAX_LEN)
-				return true;
-			return false;
-		}
-	}
 	/*
 	 * @input valid bet
 	 * @return bet amount as functional return 
@@ -154,6 +35,7 @@ public class Casino
 	//Instantiates and returns a ThreeString object to the user
 	public static ThreeString pull()
 	{
+		
 		ThreeString pullResults = new ThreeString();
 		
 		//Random results populated
@@ -174,11 +56,11 @@ public class Casino
 			return "space";
 		
 		//cherries 25%
-		if(mathRand <= 0.25)
+		if(mathRand <= 0.75)
 			return "cherries";
 		
 		//BAR 12.5% & '7' 12.5%
-		if(mathRand <= 0.125)
+		if(mathRand <= 0.875)
 			return "BAR";
 		return "7";
 	}
@@ -273,5 +155,126 @@ public class Casino
 		System.out.println(newPull.displayWinnings());
 
 	}
-
 }
+	
+	//Constructor for ThreeString class
+	class ThreeString
+	{
+		//Maximum length of any string 
+		public static final int MAX_LEN = 20;
+		public static final int MAX_PULLS = 40;
+		
+		//Array of outcome of pull winnings
+		private static int[] pullWinnings = new int[MAX_PULLS];
+		
+		//Outcomes of pull
+		private String string1;
+		private String string2;
+		private String string3;
+		
+		//The current index of the pullWinnings
+		private static int numPulls = 0;
+		
+		ThreeString()
+		{
+			string1 = "";
+			string2 = "";
+			string3 = "";
+		}
+		
+		//Accessor to string values 
+		
+		public String getString1()
+		{
+			return string1;
+		}
+		public String getString2()
+		{
+			return string2;
+		}
+		public String getString3()
+		{
+			return string3;
+		}
+		
+		//Mutators of string values
+		
+		public boolean setString1(String value)
+		{
+			//Validates the string 
+			if(validString(value))
+			{
+				string1 = value;
+				return true;
+			}
+			return false;
+		}
+		
+		public boolean setString2(String value)
+		{
+			if(validString(value))
+			{
+				string2 = value;
+				return true;
+			}
+			return false;
+		}
+		
+		public boolean setString3(String value)
+		{
+			if(validString(value)) {
+				string3 = value;
+				return true;
+			}
+			return false;
+		}
+		
+		public String toString() {
+			return string1 + " " + string2 + " " + string3;
+		}
+		
+		public boolean saveWinnings(int winnings)
+		{
+			//Boundary
+			if(numPulls < MAX_PULLS)
+			{
+				pullWinnings[numPulls] = winnings;
+				
+				//Validates assignment in array
+				if (pullWinnings[numPulls] == winnings)
+				{
+					++numPulls;
+					return true;
+				}
+			}
+			return false;
+		}
+		
+		public String displayWinnings()
+		{
+			String message = "Your individual winnings were:\n";
+			int totalWinnings = 0;
+			
+			//Individual winnings shown and total winnings calculated 
+			for (int i = 0; i < numPulls; ++i)
+			{
+				message += " " + pullWinnings[i];
+				totalWinnings += pullWinnings[i];
+			}
+			
+			//total winnings 
+			message += "\nYour total winnings were: $" + totalWinnings;
+			
+			return message;
+		}
+		
+		//True only when not empty and less than max length of characters
+		private boolean validString(String str)
+		{
+			if(!str.equals("") && str.length() <= MAX_LEN)
+				return true;
+			return false;
+		}
+	}
+	
+	
