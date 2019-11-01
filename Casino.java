@@ -1,52 +1,52 @@
-/***********************************************************
+/*****************************************************************
  * 
  * @author Ricardo Barbosa
- * @version 10/30/2019
+ * @version 10/31/2019
+ * Course:		 CST338 Fall 2019
+ * Description: Casino program that asks user to input a value 
+ * 				 between 1 - 100 and returns 3 strings with 
+ * 				 amount the user won. 
+ * Usage:		 A simple gambling game 
  * 
- ***********************************************************/
+ *****************************************************************/
 
 import java.util.*;
 import java.lang.Math;
 
 public class Casino
 {
+   //Scanner object created 
+   private static Scanner keyboard = new Scanner(System.in);
    
-	private static Scanner keyboard = new Scanner(System.in);
 	
-	/*
-	 * @input valid bet
-	 * @return bet amount as functional return 
+   /********************************************************
+    * Public methods
+    ********************************************************/
+   
+	/**
+	 * getBet() retrieves a bet from the user 
+	 * 
+	 * @return The bet the user input (1-100)
 	 */
 	public static int getBet()
 	{
-		int userBet = -1;
+	   int userBet = -1;
 		
-		//Prompts until the bet is valid
+		//Prompts user until valid bet is entered 
 		while (userBet < 0 || userBet >100)
 		{
-			System.out.println("How much would you like to bet? (1 - 100) " +
+			System.out.println("How much would you like to bet? ($1 - $100) " +
 										"or quit: ");
 			userBet = keyboard.nextInt();
 		}
-		
 		return userBet;
 	}
 	
-	//Instantiates and returns a ThreeString object to the user
-	public static ThreeString pull()
-	{
-		
-		ThreeString pullResults = new ThreeString();
-		
-		//Random results populated
-		pullResults.setString1(randString());
-		pullResults.setString2(randString());
-		pullResults.setString3(randString());
-		
-		return pullResults;
-	}
-	
-	//Returns random string based on probability
+	/**
+	 * randString() generates the statistic for each string 
+	 * 
+	 * @return A statistically randomized string 
+	 */
 	private static String randString()
 	{
 		double mathRand = Math.random();
@@ -54,7 +54,7 @@ public class Casino
 		//space 50%
 		if(mathRand <= 0.50)
 			return "space";
-		
+	
 		//cherries 25%
 		if(mathRand <= 0.75)
 			return "cherries";
@@ -65,7 +65,32 @@ public class Casino
 		return "7";
 	}
 	
-   //Pay multiplier is determined 
+	/**
+	 * pull() creates a new object of type ThreeString 
+	 * 
+	 * @return An instantiated object with 3 statistically randomized values
+	 */
+	public static ThreeString pull()
+	{
+		//Instantiates a new ThreeString object
+		ThreeString pullResults = new ThreeString();
+		
+		//Randomly populates 3 strings 
+		pullResults.setString1(randString());
+		pullResults.setString2(randString());
+		pullResults.setString3(randString());
+		
+		return pullResults;
+	}
+	
+   /**
+    * getPayMultiplier() determines the amount awarded 
+    * 						 based on string combination
+    * 
+    * @return individual amount paid per pull
+    * @param  An object of type ThreeString 
+    */
+	
 	public static int getPayMultiplier(ThreeString thePull)
 	{
 		String pullString1 = thePull.getString1();
@@ -81,7 +106,6 @@ public class Casino
 					//cherries cherries cherries
 					return 30;
 				}
-				
 				//cherries cherries [other]
 				return 15;
 			}
@@ -115,7 +139,12 @@ public class Casino
 		return 0;		
 	}
 	
-	//Outcome displayed to user 
+	/**
+	 * display() displays the pull result with winnings or other 
+	 * 
+	 * @param thePull
+	 * @param winnings
+	 */
 	public static void display(ThreeString thePull, int winnings)
 	{
 		System.out.println("whirrrrr .... and your pull is ...");
@@ -130,6 +159,11 @@ public class Casino
 		System.out.println();
 	}
 	
+	
+	/************************************************************
+	 * Main Method
+	 * @param args
+	 ************************************************************/
 	public static void main(String[] args)
 	{
 		int userBet = getBet();
@@ -150,21 +184,24 @@ public class Casino
 			userBet = getBet();
 		}
 		
-		//Summary 
+		//Summary & closing of scanner object
 		System.out.println("Thanks for playing at the Casino");
 		System.out.println(newPull.displayWinnings());
-
+		keyboard.close();
 	}
 }
+
+	/*********************************************************
+	 *	ThreeString class 
+	 *********************************************************/
 	
-	//Constructor for ThreeString class
 	class ThreeString
 	{
 		//Maximum length of any string 
 		public static final int MAX_LEN = 20;
 		public static final int MAX_PULLS = 40;
 		
-		//Array of outcome of pull winnings
+		//Array outcome of pulled winnings
 		private static int[] pullWinnings = new int[MAX_PULLS];
 		
 		//Outcomes of pull
@@ -172,9 +209,10 @@ public class Casino
 		private String string2;
 		private String string3;
 		
-		//The current index of the pullWinnings
+		//Index of the pullWinnings array
 		private static int numPulls = 0;
 		
+		//Default constructor
 		ThreeString()
 		{
 			string1 = "";
@@ -182,7 +220,7 @@ public class Casino
 			string3 = "";
 		}
 		
-		//Accessor to string values 
+		//Accessors to the private String values 
 		
 		public String getString1()
 		{
@@ -197,11 +235,18 @@ public class Casino
 			return string3;
 		}
 		
-		//Mutators of string values
+		//Private helper method 
+		private boolean validString(String str)
+		{
+			if(!str.equals("") && str.length() <= MAX_LEN)
+				return true;
+			return false;
+		}
 		
+		//Mutators of string value
 		public boolean setString1(String value)
 		{
-			//Validates the string 
+			//Validates legal string1
 			if(validString(value))
 			{
 				string1 = value;
@@ -209,9 +254,10 @@ public class Casino
 			}
 			return false;
 		}
-		
+	
 		public boolean setString2(String value)
 		{
+			//Validates legal string2
 			if(validString(value))
 			{
 				string2 = value;
@@ -222,6 +268,7 @@ public class Casino
 		
 		public boolean setString3(String value)
 		{
+			//Validates legal string3
 			if(validString(value)) {
 				string3 = value;
 				return true;
@@ -229,10 +276,12 @@ public class Casino
 			return false;
 		}
 		
+		//Returns all strings as one string
 		public String toString() {
 			return string1 + " " + string2 + " " + string3;
 		}
 		
+		//Saves winnings from round
 		public boolean saveWinnings(int winnings)
 		{
 			//Boundary
@@ -250,6 +299,8 @@ public class Casino
 			return false;
 		}
 		
+		//Uses loop to get values out of array
+		//Displays total winnings 
 		public String displayWinnings()
 		{
 			String message = "Your individual winnings were:\n";
@@ -262,19 +313,12 @@ public class Casino
 				totalWinnings += pullWinnings[i];
 			}
 			
-			//total winnings 
+			//total winnings displayed
 			message += "\nYour total winnings were: $" + totalWinnings;
 			
 			return message;
 		}
 		
-		//True only when not empty and less than max length of characters
-		private boolean validString(String str)
-		{
-			if(!str.equals("") && str.length() <= MAX_LEN)
-				return true;
-			return false;
-		}
 	}
 	
 	
